@@ -1,0 +1,18 @@
+# Visual Studio / .NET
+bin/
+obj/
+*.user
+*.suo
+*.csproj.user
+*.db
+*.sqlite
+
+# Node / React
+node_modules/
+dist/
+build/
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
