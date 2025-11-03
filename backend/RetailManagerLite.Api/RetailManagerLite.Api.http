@@ -1,0 +1,6 @@
+@RetailManagerLite.Api_HostAddress = http://localhost:5182
+
+GET {{RetailManagerLite.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
