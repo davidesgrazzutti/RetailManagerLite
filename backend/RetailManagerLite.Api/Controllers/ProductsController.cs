@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using RetailManagerLite.Api.Data;
 using RetailManagerLite.Api.Models;
 
 namespace RetailManagerLite.Api.Controllers
@@ -7,51 +9,45 @@ namespace RetailManagerLite.Api.Controllers
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
-        private static readonly List<Product> _products = new()
-        {
-            new Product { Id = 1, Name = "Pane", Category = "Alimentari", Price = 1.20m, Quantity = 30 },
-            new Product { Id = 2, Name = "Latte", Category = "Alimentari", Price = 0.99m, Quantity = 50 },
-            new Product { Id = 3, Name = "Shampoo", Category = "Cura persona", Price = 3.50m, Quantity = 20 }
-        };
+        private readonly AppDbContext _context;
+        public ProductsController(AppDbContext context) => _context = context;
 
         [HttpGet]
-        public ActionResult<IEnumerable<Product>> GetAll() => Ok(_products);
+        public async Task<ActionResult<IEnumerable<Product>>> GetAll()
+            => await _context.Products.ToListAsync();
 
         [HttpGet("{id}")]
-        public ActionResult<Product> GetById(int id)
+        public async Task<ActionResult<Product>> GetById(int id)
         {
-            var product = _products.FirstOrDefault(p => p.Id == id);
+            var product = await _context.Products.FindAsync(id);
             if (product == null) return NotFound();
-            return Ok(product);
+            return product;
         }
 
         [HttpPost]
-        public ActionResult<Product> Create(Product product)
+        public async Task<ActionResult<Product>> Create(Product product)
         {
-            product.Id = _products.Max(p => p.Id) + 1;
-            _products.Add(product);
+            _context.Products.Add(product);
+            await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetById), new { id = product.Id }, product);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, Product updated)
+        public async Task<IActionResult> Update(int id, Product product)
         {
-            var product = _products.FirstOrDefault(p => p.Id == id);
-            if (product == null) return NotFound();
-
-            product.Name = updated.Name;
-            product.Category = updated.Category;
-            product.Price = updated.Price;
-            product.Quantity = updated.Quantity;
+            if (id != product.Id) return BadRequest();
+            _context.Entry(product).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var product = _products.FirstOrDefault(p => p.Id == id);
+            var product = await _context.Products.FindAsync(id);
             if (product == null) return NotFound();
-            _products.Remove(product);
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
             return NoContent();
         }
     }

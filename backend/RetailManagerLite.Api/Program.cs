@@ -1,6 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+using RetailManagerLite.Api.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Abilita CORS (serve poi per il frontend React)
+// Abilita CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
@@ -10,6 +13,11 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Configurazione EF Core con SQLite
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite("Data Source=retail.db")
+);
 
 var app = builder.Build();
 
