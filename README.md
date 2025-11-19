@@ -1,4 +1,5 @@
-RetailManagerLite
+#  **RetailManagerLite**
+
 
 RetailManagerLite è un piccolo gestionale per il settore retail/GDO sviluppato con ASP.NET Core, SQLite e React + TypeScript.
 Permette di gestire prodotti con operazioni CRUD (Crea, Leggi, Aggiorna, Elimina) e funzionalità avanzate come ricerca filtrata e modifica inline.
@@ -7,22 +8,34 @@ Il progetto è pensato come demo per dimostrare competenze fullstack in un conte
 <img width="1372" height="461" alt="image" src="https://github.com/user-attachments/assets/9926d1e2-8eed-4eb9-9a3b-fb63164af508" />
 
 
-🛠 Tecnologie utilizzate
+## **Tecnologie**
 
-Backend
+### **Backend**
 
-ASP.NET Core Web API
+* **ASP.NET Core Web API** 
+* **Entity Framework Core con SQLite** 
+* **C# 11** 
 
-Entity Framework Core con SQLite
+### **Frontend**
 
-C# 11
+* **React + TypeScript**  
+* **Axios per le chiamate HTTP**  
+* **Bootstrap 5 per lo styling**  
 
-Frontend
+##  Come Eseguire
+###  Backend
+  Dal terminale, posizionati nella **cartella backend**:
+  
+  Esegui i seguenti comandi per compilare e avviare il backend:
 
-React + TypeScript
+    dotnet build
+    dotnet run
 
-Axios per le chiamate HTTP
+###  Frontend
+1.  Posizionati nella cartella frontend  che si trova all'interno della directory principale.
+2.  Apri un terminale in questa cartella e poi digita i seguenti comandi:
 
-Bootstrap 5 per lo styling
-
-
+    ```bash
+    npm install
+    npm start
+    ```
